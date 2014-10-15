@@ -344,13 +344,14 @@ def draw_networkx_edges(G, pos,
 
                 vertex1_x.append(a_pos[i][0][0] + arrow_width)
                 vertex2_x.append(a_pos[i][0][0] - arrow_width)
-
+                
                 '''
                 Nassim's notes:
-                You'll notice that I use vertex2_x in both equations.
-                This is deliberate. The arrows come out looking nicer this way.
+                This code works just as well if you use the same x vertex for both y values
+                and just flip the sign of the orthoslope term. 
+                This current implementation was chosen because it makes more mathematical sense.
                 '''
-                vertex1_y.append(a_pos[i][0][1] - 1.0*orthoslope[i]*(vertex2_x[i] - a_pos[i][0][0]))
+                vertex1_y.append(a_pos[i][0][1] + 1.0*orthoslope[i]*(vertex1_x[i] - a_pos[i][0][0]))
                 vertex2_y.append(a_pos[i][0][1] + 1.0*orthoslope[i]*(vertex2_x[i] - a_pos[i][0][0]))
                 
 
