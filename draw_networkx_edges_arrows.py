@@ -41,6 +41,7 @@ def draw_networkx_edges(G, pos,
                         ax=None,
                         arrows=True,
                         arrowheads=True,
+                        apos_on_edge = 0.15,
                         label=None,
                         **kwds):
     """Draw the edges of the graph G.
@@ -89,6 +90,11 @@ def draw_networkx_edges(G, pos,
     arrowheads : bool, optional (default=True)
        For directed graphs, if True draw a traditional triangular arrowhead.
        If false, draw the old box-like structure instead.
+
+    apos_on_edge : float, optional (default=0.15)
+       For directed graphs, controls where the arrowhead appears
+       along the edge. 0 is at the end of the edge, 1 is at the
+       beginning of the edge.
 
     label : [None| string]
        Label for legend
@@ -247,12 +253,8 @@ def draw_networkx_edges(G, pos,
             Nassim's notes:
             The arrow shape needs to conform to the length of the edge to some degree.
             If the edge is long, the arrow will be very long too, and that can look bad.
-            This if/else is a crude way for me to control for longer edge lengths.
             '''
-            if d > 100:
-                p = 1.0 - 0.15
-            else:
-                p - 1.0 - 0.25
+            p = 1.0 - 0.25 / (2*d/100.0)
                 
             if d == 0:   # source and target at same position
                 continue
@@ -333,12 +335,12 @@ def draw_networkx_edges(G, pos,
             for i in range(0,len(a_pos)):
                 
                 if i + 1 > len(dist):
-                    dist_to_use = numpy.mean(lengths)* dist[i % len(dist)] / lengths[i]
+                    dist_to_use =  p * dist[i % len(dist)] 
                 else:
-                    dist_to_use = numpy.mean(lengths)* dist[i] / lengths[i]
+                    dist_to_use =  p * dist[i]
 
                 if (((dist_to_use)**2)/(1 + orthoslope[i])) < 0:
-                    arrow_width = 1 * numpy.sqrt(-1*(dist_to_use)**2/(1 + orthoslope[i]))
+                    arrow_width = 0.5 * numpy.sqrt(-1*(dist_to_use)**2/(1 + orthoslope[i]))
                 else:
                     arrow_width = numpy.sqrt((dist_to_use)**2/(1 + orthoslope[i]))
 
@@ -358,13 +360,13 @@ def draw_networkx_edges(G, pos,
             '''
             Nassim's notes:
             Here is where we put together our vertices in a matplotlib-readable format.
-            The 0.4*lengths[i] multiplier here is tuneable.
+            The apos_on_edge*lengths[i] multiplier here is tuneable.
             This controls where along the edge the arrow will appear.
-            Like other multipliers, the 0.4 could be made into a variable that is input to the function.
             '''
-            a_verts = [((vertex1_x[i] - 0.4*lengths[i]*numpy.cos(thetas[i]),vertex1_y[i] - 0.4*lengths[i]*numpy.sin(thetas[i])),
-                        (vertex2_x[i] - 0.4*lengths[i]*numpy.cos(thetas[i]),vertex2_y[i] - 0.4*lengths[i]*numpy.sin(thetas[i])),
-                        (a_pos[i][1][0] - 0.4*lengths[i]*numpy.cos(thetas[i]),a_pos[i][1][1] - 0.4*lengths[i]*numpy.sin(thetas[i])))
+
+            a_verts = [((vertex1_x[i] - apos_on_edge*lengths[i]*numpy.cos(thetas[i]),vertex1_y[i] - apos_on_edge*lengths[i]*numpy.sin(thetas[i])),
+                        (vertex2_x[i] - apos_on_edge*lengths[i]*numpy.cos(thetas[i]),vertex2_y[i] - apos_on_edge*lengths[i]*numpy.sin(thetas[i])),
+                        (a_pos[i][1][0] - apos_on_edge*lengths[i]*numpy.cos(thetas[i]),a_pos[i][1][1] - apos_on_edge*lengths[i]*numpy.sin(thetas[i])))
                        for i in range(0,len(a_pos))]
 
             '''
