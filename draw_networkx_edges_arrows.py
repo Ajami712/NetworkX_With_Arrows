@@ -6,7 +6,9 @@ certainly know more about coding than I do.
 
 All major changes that I've made will be prefaced with
 snippets of comments much like this one. All work was
-done in Python 2.7.6.
+done in Python 2.7.6 and only tested on the 'dot'
+layout from pygraphviz. THIS CODE IS ONLY GUARANTEED
+TO WORK FOR NETWORKS DESIGNED AS TREES.
 
 I wrote this because I really wanted arrowheads in my network.
 My changes to the function are a work in progress, but currently
