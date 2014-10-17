@@ -17,16 +17,12 @@ here is what you can do:
 - Opt for traditional square boxes drawn along edges, in case you
 want to differentiate between inhibition and activation.
 
-- Modulate the width of the arrows and their position along the edge.
-(This functionality has not been made into parameter inputs yet, but
-they are currently present in the function as pre-set constants.)
+- Modulate the position of the arrows along the edge.
 
-I envision making those pre-set constants into actual parameters
-sometime in the future. I am also interested in modifying the
-actual edge-drawing functionality as well. At present, the
-function does not seem capable of drawing loops (edges that start
-and end at the same vertex). This seems fixable with some
-shape manipulation via matplotlib.
+I am interested in modifying the actual edge-drawing functionality 
+at some point in the future. At present, the function does not seem 
+capable of drawing loops (edges that start and end at the same 
+vertex). This seems fixable with some shape manipulation via matplotlib.
 '''
 
 def draw_networkx_edges(G, pos,
